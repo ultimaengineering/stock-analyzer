@@ -11,23 +11,25 @@ spec:
     command:
     - cat
     tty: true
+    volumeMounts:
+    - mountPath: '/workspace/opt/app/shared/'
+      name: sharedvolume
   - name: kaniko
-      workingDir: /tmp/jenkins
-      image: gcr.io/kaniko-project/executor:debug-v0.14.0
-      imagePullPolicy: Always
-      capabilities:
-        add: ["IPC_LOCK"]
-      command:
-      - /busybox/cat
-      tty: true
-      volumeMounts:
-      - mountPath: '/workspace/opt/app/shared/'
-        name: sharedvolume
-    volumes:
-        - name: sharedvolume
-          persistentVolumeClaim:
-            claimName: sharedvolume
-"""
+    workingDir: /tmp/jenkins
+    image: gcr.io/kaniko-project/executor:debug-v0.14.0
+    imagePullPolicy: Always
+    capabilities:
+      add: ["IPC_LOCK"]
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+    - mountPath: '/workspace/opt/app/shared/'
+      name: sharedvolume
+  volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: sharedvolume"""
   ) {
   node(POD_LABEL) {
         stage('Build and test') {
