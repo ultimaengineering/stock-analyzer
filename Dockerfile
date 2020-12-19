@@ -2,5 +2,5 @@ FROM alpine:3.12.3
 RUN apk update && apk upgrade
 RUN mkdir /app
 RUN ls /workspace
-ADD /workspace/stock-analyzer /app/stock-analyzer
+ADD stock-analyzer /app/stock-analyzer
 CMD /app/stock-analyzer
