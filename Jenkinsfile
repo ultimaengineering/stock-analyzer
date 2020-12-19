@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: rust
-    image: rust:1.48-stretch
+    image: rust:1.48.0-buster
     command:
     - cat
     tty: true
