@@ -37,8 +37,8 @@ spec:
           container('rust') {
             sh 'cargo test'
             sh 'cargo build --release'
-            sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer/stock-analyzer'
-            sh 'cp Dockerfile /workspace/opt/app/shared//stock-analyzer/Dockerfile'
+            sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer'
+            sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
           }
         }
         stage('Build with Kaniko') {
@@ -46,7 +46,7 @@ spec:
               PATH = "/busybox:/kaniko:$PATH"
              }
               container(name: 'kaniko', shell: '/busybox/sh') {
-               sh 'cp /workspace/opt/app/shared/stock-analyzer/* /workspace/'
+               sh 'cp /workspace/opt/app/shared/stock-analyzer /workspace/opt/app/shared/Dockerfile  /workspace/'
                sh 'pwd'
                sh 'ulimit -n 10000'
                sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/stock-analyzer:latest'
