@@ -37,8 +37,8 @@ spec:
           container('rust') {
             sh 'cargo test'
             sh 'cargo build --release'
-            sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer/'
-            sh 'cp dockerfile /workspace/opt/app/shared//stock-analyzer/'
+            sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer/stock-analyzer'
+            sh 'cp Dockerfile /workspace/opt/app/shared//stock-analyzer/Dockerfile'
           }
         }
         stage('Build with Kaniko') {
