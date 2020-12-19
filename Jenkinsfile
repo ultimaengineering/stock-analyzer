@@ -46,7 +46,8 @@ spec:
               PATH = "/busybox:/kaniko:$PATH"
              }
               container(name: 'kaniko', shell: '/busybox/sh') {
-               sh 'cp /workspace/opt/app/shared/stock-analyzer /workspace/opt/app/shared/Dockerfile  /workspace/'
+               sh 'cp /workspace/opt/app/shared/stock-analyzer  /workspace'
+               sh 'cp /workspace/opt/app/shared/Dockerfile /workspace'
                sh 'pwd'
                sh 'ulimit -n 10000'
                sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/stock-analyzer:latest'
