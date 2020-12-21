@@ -16,7 +16,7 @@ spec:
       name: sharedvolume
   - name: kaniko
     workingDir: /tmp/jenkins
-    image: gcr.io/kaniko-project/executor:debug-v0.14.0
+    image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always
     capabilities:
       add: ["IPC_LOCK"]
@@ -28,8 +28,9 @@ spec:
       name: sharedvolume
   volumes:
       - name: sharedvolume
-        persistentVolumeClaim:
-          claimName: sharedvolume"""
+        emptyDir:
+          medium: "Memory"
+          """
   ) {
   node(POD_LABEL) {
         stage('Build and test') {
@@ -50,7 +51,7 @@ spec:
                sh 'cp /workspace/opt/app/shared/Dockerfile /workspace'
                sh 'pwd'
                sh 'ulimit -n 10000'
-               sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/stock-analyzer:latest'
+               sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/stock-analyzer:${BRANCH_NAME}-${BUILD_NUMBER}'
               }
              }
 }}
