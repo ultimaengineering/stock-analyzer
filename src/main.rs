@@ -4,7 +4,6 @@ extern crate time;
 use iron::prelude::*;
 use iron::{typemap, AfterMiddleware, BeforeMiddleware};
 use time::{OffsetDateTime};
-use std::{thread};
 
 struct ResponseTime;
 
