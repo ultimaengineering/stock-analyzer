@@ -1,9 +1,21 @@
+use crate::trading_strategy::{TradingStrategy, TradeDecision};
+use crate::trading_strategy::Stock;
+
 struct Momentum {
 
 }
 
 impl TradingStrategy for Momentum {
+    fn name(&self) -> String {
+        return "".to_owned();
+    }
 
+    fn evaluate_stock(&self, s: Stock) -> TradeDecision {
+        return TradeDecision {
+            name: "".to_string(),
+            confidence: Default::default()
+        }
+    }
 }
 
 //   Entry Criteria #1: Momentum Day Trading Chart Pattern (Bull Flag or Flat Top Breakout)

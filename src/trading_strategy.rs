@@ -1,16 +1,26 @@
 // https://www.investopedia.com/articles/active-trading/101014/basics-algorithmic-trading-concepts-and-examples.asp
 
-struct TradeDecision {
-    name: str,
-    confidence: float
+
+
+use rust_decimal::Decimal;
+use alpaca_client::client::{Client, AccountType};
+
+pub struct TradeDecision {
+    pub name: String,
+    pub confidence: Decimal
 }
 
-struct Stock {
-    symbol: str,
-    exchange: str,
+pub struct Stock {
+    pub symbol: String,
+    pub exchange: String,
 }
 
-trait TradingStrategy {
-    fn name(&self) -> str;
+pub(crate) trait TradingStrategy {
+    fn name(&self) -> String;
     fn evaluate_stock(&self, _: Stock) -> TradeDecision;
+
+    fn get_client() -> Client {
+        return alpaca_client::client::Client::new("".parse().unwrap(), "".parse().unwrap(), AccountType::PAPER);
+    }
 }
+
