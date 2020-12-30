@@ -9,7 +9,7 @@ pipeline {
       steps {
         checkout scm
         container('rust') {
-          sh 'cargo build'
+          sh 'cargo build --release'
         }
       }
     }
@@ -31,9 +31,6 @@ pipeline {
     stage('Copy Artifacts') {
       steps {
         container('rust') {
-          sh 'ls'
-          sh 'ls target'
-          sh 'ls target/release/'
           sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer'
           sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
         }
