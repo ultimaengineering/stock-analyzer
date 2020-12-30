@@ -33,7 +33,7 @@ pipeline {
         container('rust') {
           sh 'ls'
           sh 'ls target'
-          sh 'target/release/'
+          sh 'ls target/release/'
           sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer'
           sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
         }
