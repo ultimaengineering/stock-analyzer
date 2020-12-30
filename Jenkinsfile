@@ -29,9 +29,11 @@ pipeline {
       }
     }
     stage('Copy Artifacts') {
-      container('rust') {
-        sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer'
-        sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
+      steps {
+        container('rust') {
+          sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer'
+          sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
+        }
       }
     }
     stage('Release') {
