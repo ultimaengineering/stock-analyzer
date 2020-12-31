@@ -39,7 +39,7 @@ pipeline {
     stage('Release') {
       steps {
         container('kaniko') {
-          sh 'cp /workspace/opt/app/shared/stock-analyzer  /workspace'
+          sh 'cp /workspace/opt/app/shared/stock_analyzer  /workspace'
           sh 'cp /workspace/opt/app/shared/Dockerfile /workspace'
           sh 'ulimit -n 10000'
           sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/stock-analyzer:${BRANCH_NAME}-${BUILD_NUMBER}'
