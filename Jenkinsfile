@@ -31,7 +31,7 @@ pipeline {
     stage('Copy Artifacts') {
       steps {
         container('rust') {
-          sh 'cp target/release/stock-analyzer /workspace/opt/app/shared/stock-analyzer'
+          sh 'cp target/release/stock_analyzer /workspace/opt/app/shared/stock_analyzer'
           sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
         }
       }
