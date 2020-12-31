@@ -1,9 +1,14 @@
 extern crate iron;
 extern crate time;
+extern crate alpaca_client;
 
 use iron::prelude::*;
 use iron::{typemap, AfterMiddleware, BeforeMiddleware};
 use time::{OffsetDateTime};
+
+mod trading_strategy;
+mod momentum;
+mod index_funding_balancing;
 
 struct ResponseTime;
 
@@ -33,7 +38,7 @@ fn health(_: &mut Request) -> IronResult<Response> {
     let health = Health {
         status: String::from("up")
     };
-    Ok(Response::with((iron::status::Ok, "status: up")))
+    Ok(Response::with((iron::status::Ok, "status: ".to_owned() + &*health.status)))
 }
 
 fn main() {
