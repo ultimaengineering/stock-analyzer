@@ -5,12 +5,18 @@ use alpaca_client::client::{Client, AccountType};
 use std::env;
 use alpaca_client::client::AccountType::PAPER;
 use alpaca_client::asset::Asset;
-use alpaca_client::bar::{BarRequest, TimeFrame};
+use alpaca_client::bar::{BarRequest, TimeFrame, Bar};
 use std::process::exit;
+use std::collections::HashMap;
 
 pub struct Momentum {
 
 }
+#[derive(Debug)]
+struct BarSplits {
+    stocks: String
+}
+
 
 impl TradingStrategy for Momentum {
     fn name(&self) -> String {
@@ -32,21 +38,26 @@ impl TradingStrategy for Momentum {
 //   Entry Criteria #4: Low Float is preferred.  I look for under 100mil shares, but under 20million shares is ideal.  You can find the outstanding float with Trade Ideas or eSignal.
 fn identify_entry() {
     let assets = get_viable_assets();
-    let bar = assets.iter().last()
-        .map(|a| {
-            let client = TradingClient::new();
-            let br = BarRequest {
-                time_frame: TimeFrame::OneMinute,
-                symbols: a.symbol.to_owned(),
-                limit: 0,
-                start: None,
-                end: None,
-                after: None,
-                until: None
-            };
-            return client.get_bar(br);
-        });
-    println!("{:?}", bar);
+    let bars = get_stock_names(assets);
+    let client = TradingClient::new();
+    let bar_responses: HashMap<String, Vec<Bar>> = bars.iter().map(|x| {
+        let stocks = &*x.stocks;
+        let a = BarRequest {
+            time_frame: TimeFrame::OneMinute,
+            symbols: stocks.parse().unwrap(),
+            limit: 0,
+            start: None,
+            end: None,
+            after: None,
+            until: None
+        };
+        println!("request: {:?}", a);
+        return a;
+    })
+        .map(|x| client.get_bar(x))
+        .flatten()
+        .collect();
+    println!("{:?}", bar_responses.keys());
     identify_bull_flag_break_out_pattern();
     identify_flat_top_breakout_pattern();
     identify_profit_loss_stop();
@@ -108,6 +119,20 @@ fn get_viable_assets() -> Vec<Asset> {
         .collect();
     println!("total number of stocks to parse {:?}", tradable_assets.len());
     return tradable_assets;
+}
+
+fn get_stock_names(mut assets: Vec<Asset>) -> Vec<BarSplits> {
+    let mut stocks: Vec<BarSplits> = Vec::new();
+    for x in 0..assets.len() % 100 {
+        let mut n = assets.drain(0..100);
+        let strings: Vec<String> = n.map(|x| x.to_owned().symbol).collect();
+        println!(" stock size: {:?}", strings.len());
+        stocks.push(BarSplits {
+            stocks: strings.join(",")
+        });
+    }
+    println!("stocks {:?}", stocks);
+    return stocks;
 }
 
 
