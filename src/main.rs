@@ -8,6 +8,7 @@ use time::{OffsetDateTime};
 
 mod trading_strategy;
 mod momentum;
+mod trading_client;
 mod index_funding_balancing;
 
 struct ResponseTime;

@@ -4,6 +4,8 @@
 
 use rust_decimal::Decimal;
 use alpaca_client::client::{Client, AccountType};
+use crate::trading_client::TradingClient;
+use alpaca_client::asset::Asset;
 
 pub struct TradeDecision {
     pub name: String,
